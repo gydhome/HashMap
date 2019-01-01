@@ -22,7 +22,7 @@ class File
 public:
 	File():empty('*'), delMarker('*')
 	{
-
+		pointers = nullptr;
 	}
 
 
@@ -75,7 +75,7 @@ unsigned long File::hash(char *s)
 
 void File::getName(char line[])
 {
-	cout << "Enter a naem: ";
+	cout << "Enter a name: ";
 	cin.getline(line, recordLen + 1);
 	for( int i = strlen(line); i < recordLen; i++)
 		line[i] = ' ';
@@ -272,8 +272,12 @@ void File::processFile(char * fileName)
 		outfile << empty;         // initialize outfile;
 	}
 	char line[recordLen + 1];
-	while(fIn.get(line, recordLen + 1))  // load infile to outfile;
+	while(fIn.getline(line, recordLen + 1))  // load infile to outfile;
+	{
+	//	cout << line << endl;
+	//	memset(line, 0, recordLen + 1);
 		insertion(line);
+	}
 	while(strcmp(command, "exit"))
 	{
 		cout << "Enter a command (insert, remove, or exit): ";
@@ -296,14 +300,8 @@ void File::processFile(char * fileName)
 }
 int main(int argc, char *argv[])
 {
-	 char fileName[30];
-	 if(argc !=2)
-	 {
-		 cout << "Enter a file name:";
-		 cin.getline(fileName, 30);
-	 }
-	 else
-		 strcpy(fileName, argv[1]);
+	 char fileName[30]="testHash";
+
 	 File fClass;
 	 fClass.processFile(fileName);
 	 return 0;
